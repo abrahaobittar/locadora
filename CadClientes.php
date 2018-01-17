@@ -97,7 +97,7 @@ require_once 'Clientes.php';
                         <td><?php echo $value->cli_cpf; ?></td>
                         <td><?php echo $value->cli_email; ?></td>
                         <td><?php echo $value->cli_telefone; ?></td> 
-                        <td><?php echo $value->cli_endereco; ?></td> 
+                        <td><?php echo $value->cli_endereco; #teste ?></td> 
                     </tr>
                 </tbody>
             <?php endforeach; ?>
