@@ -96,6 +96,18 @@ class Clientes extends Crud
         return $stmt->execute();
     }
 
+    public function updateCliente() 
+    {
+        $sql = "UPDATE $this->table SET cli_nome = :nome, cli_cpf = :cpf, cli_email = :email, cli_telefone = :telefone, cli_endereco = :endereco where cli_id = :id";
+        $stmt->bindParam(':id',$this->id);    
+        $stmt->bindParam(':nome',$this->nome);
+        $stmt->bindParam(':cpf',$this->cpf);
+        $stmt->bindParam(':email',$this->email);
+        $stmt->bindParam(':telefone',$this->telefone);
+        $stmt->bindParam(':endereco',$this->endereco);
+        return $stmt->execute();
+    }
+
     public function findByCPF($cpf)
     {
         $sql = "SELECT * FROM $this->table WHERE cli_cpf = :cpf";

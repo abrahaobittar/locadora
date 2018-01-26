@@ -8,7 +8,6 @@ require_once 'Clientes.php';
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-
         <title>Cadastro de Clientes</title>
 
         <script type="text/javascript">
@@ -21,8 +20,8 @@ require_once 'Clientes.php';
 
             document.onreadystatechange = () => {
                 if (document.readyState === 'complete') {
-                    // toda vez que a página carregar, vai limpar a mensagem (se houver) 
-                    // após 5 segundos
+                    // toda vez que a pagina carregar, vai limpar a mensagem (se houver) 
+                    // timer de 5 segundos
                     removeMensagem();
                 }
             };
@@ -54,6 +53,58 @@ require_once 'Clientes.php';
             }
         endif;
         ?>
+
+        <?php
+		    if(isset($_GET['acao']) && $_GET['acao'] == 'deletar'):
+			    $id = (int)$_GET['id'];
+    			if($clientes->delete($id,'cli_id')){
+	    			echo '<p id="msg_sucesso">Deletado com sucesso!</p>';
+			    }
+		    endif;
+		?>
+    
+        <?php 
+            if(isset($_GET['acao']) && $_GET['acao'] == 'editar') {
+                $id = (int)$_GET['id'];
+                $resultado = $clientes->find($id,'cli_id');
+
+                if(isset($_POST['alterar_cliente'])):
+                    $clientes->setId($_GET['id']);
+                    $clientes->setNome($_POST['enome']);
+                    $clientes->setCpf($_POST['ecpf']);
+                    $clientes->setEmail($_POST['eemail']);
+                    $clientes->setTelefone($_POST['etelefone']);
+                    $clientes->setEndereco($_POST['eendereco']);
+                    $clientes->updateCliente($filmes->getId(), $filmes->getNome(), $filmes->getCpf(), $filmes->getEmail(), $filmes->getTelefone(), $filmes->getEndereco());
+               endif;
+        ?>
+
+        <form name="form_editar"method="post">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <p>Nome</p>
+                    <input type="text" class="form-control" name="enome" />
+
+                    <p>CPF</p>
+                    <input type="text" class="form-control" name="ecpf" />
+
+                    <p>Email</p>
+                    <input type="text" class="form-control" name="eemail" />
+
+                    <p>Telefone</p>
+                    <input type="text" class="form-control" id="telefone" name="etelefone"/>
+
+                    <p>Endereco</p>
+                    <input type="text" class="form-control" name="eendereco" />
+                </div>
+            </div>
+
+            <Button class="btn btn-outline-success" name="alterar_cliente">Cadastrar</Button>
+            <button class="btn btn-outline-primary" formaction="index.php">voltar</button>
+        </form>
+
+        <?php } else { ?>
+
         <form name="form_clientes"method="post">
             <div class="row">
                 <div class="form-group col-md-4">
@@ -69,7 +120,7 @@ require_once 'Clientes.php';
                     <p>Telefone</p>
                     <input type="text" class="form-control" id="telefone" name="telefone"/>
 
-                    <p>Endereço</p>
+                    <p>Endereco</p>
                     <input type="text" class="form-control" name="endereco" />
                 </div>
             </div>
@@ -77,7 +128,9 @@ require_once 'Clientes.php';
                 <button class="btn btn-outline-primary" formaction="index.php">voltar</button>
         </form>
 
-        <table class="table table-hover">
+        <?php } ?>
+
+        <table class="table table-sm table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -85,7 +138,7 @@ require_once 'Clientes.php';
                     <th>CPF</th>
                     <th>Email</th>
                     <th>Telefone</th>
-                    <th>Endereço</th>f
+                    <th>Endereco</th>
                 </tr>
             </thead>
 
@@ -97,7 +150,11 @@ require_once 'Clientes.php';
                         <td><?php echo $value->cli_cpf; ?></td>
                         <td><?php echo $value->cli_email; ?></td>
                         <td><?php echo $value->cli_telefone; ?></td> 
-                        <td><?php echo $value->cli_endereco; #teste ?></td> 
+                        <td><?php echo $value->cli_endereco; ?></td> 
+                        <td>
+                            <?php echo "<a class\"nav-link\" href='cadclientes.php?acao=editar&id=" . $value->cli_id . "'>Editar</a>"; ?>
+                            <?php echo "<a class\"nav-link\" href='cadclientes.php?acao=deletar&id=" . $value->cli_id . "' onclick='return confirm(\"Deseja realmente deletar?\")'>Deletar</a>"; ?>
+                        </td>
                     </tr>
                 </tbody>
             <?php endforeach; ?>

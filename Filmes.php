@@ -19,14 +19,19 @@ class Filmes extends Crud
         $this->id = $id;
     }
 
+    public function setNome($nome)
+    {
+        $this->nome = $nome;
+    }
+
     public function getNome()
     {
         return $this->nome;
     }
-
-    public function setNome($nome)
+    
+    public function setQuantidade($quantidade)
     {
-        $this->nome = $nome;
+        $this->quantidade = $quantidade;
     }
 
     public function getQuantidade()
@@ -34,19 +39,14 @@ class Filmes extends Crud
         return $this->quantidade;
     }
 
-    public function setQuantidade($quantidade)
+    public function setTipo_media($tipo_media)
     {
-        $this->quantidade = $quantidade;
+        $this->tipo_media = $tipo_media;
     }
 
     public function getTipo_media()
     {
         return $this->tipo_media;
-    }
-
-    public function setTipo_media($tipo_media)
-    {
-        $this->tipo_media = $tipo_media;
     }
 
     public function insert()
@@ -65,10 +65,22 @@ class Filmes extends Crud
     {
         $sql = "UPDATE $this->table SET fil_nome = :nome, fil_quantidade = :quantidade, fil_tipo_media = :tipo_media 
           WHERE fil_id = :id";
+        $stmt = Connection::prepare($sql);
         $stmt->bindParam(':id',$this->id);
         $stmt->bindParam(':nome',$this->nome);
         $stmt->bindParam(':quantidade',$this->quantidade);
         $stmt->bindParam(':tipo_media',$this->tipo_media);
+        return $stmt->execute();
+    }
+
+    public function updateFilme($id,$nome,$quantidade,$media)
+    {
+        $sql = "UPDATE $this->table SET fil_nome = :nome, fil_quantidade = :quantidade,fil_tipo_media = :media where fil_id = :id";
+        $stmt = Connection::prepare($sql);
+        $stmt->bindParam(':id',$this->id);
+        $stmt->bindParam(':nome',$this->nome);
+        $stmt->bindParam(':quantidade',$this->quantidade);
+        $stmt->bindParam(':media',$this->tipo_media);
         return $stmt->execute();
     }
 }

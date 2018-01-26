@@ -27,14 +27,22 @@
 
         $alocar->setFilme_fil_id($filme);
         $alocar->setCliente_cli_id($cliente);
-        $alocar->setCaf_data_aluguel($data_aluguel.':'.date('H:i:s'));
+        echo $data_aluguel;
+        if ($data_aluguel != "") {
+            $alocar->setCaf_data_aluguel($data_aluguel.':'.date('H:i:s'));
+            $alocar->insert();
+            #colocar aqui updateQuantidade
+            echo '<p id="msg_sucesso">Alocação feita com sucesso</p>';
+        } else {
+            echo "<script language=\"javascript\">alert(\"Favor informar a hora corretamente!\")</script>";
+        }
 
-        if($alocar->insert()){
+/*         if($alocar->insert()){
             echo '<p id="msg_sucesso">Alocação feita com sucesso</p>';
         } else {
             echo '<p id="msg_erro">Algo deu errado! :( </p>';
         }
-    endif;
+ */    endif;
 ?>
 
 <form name="form_alocarfilme" method="post">
@@ -73,6 +81,7 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Filme</th>
                 <th scope="col">Data</th>
+                <th scope="col">Acoes</th>
             </tr>
         </thead>
 
@@ -82,7 +91,6 @@
                     <td class="sucess"><?php echo $valorAlugados->caf_ordem_servico; ?></td>
                     <td class="sucess"><?php echo $valorAlugados->cli_nome; ?></td>
                     <td><?php echo $valorAlugados->fil_nome; ?></td>
-                    <!-- <td><?php #echo $valorAlugados->caf_data_aluguel;# ?></td> -->
                     <td class="sucess"><?php echo $valorAlugados->Data; ?></td>
                     <td class="sucess"><a href="">Editar</a></td>
                     <td class="sucess"><a href="">Deletar</a></td>
