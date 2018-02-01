@@ -48,6 +48,7 @@ require_once 'Clientes.php';
 
             if ($clientes->insert()) {
                 echo '<p id="msg_sucesso">inserido com sucesso</p>';
+                echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=CadClientes.php'>";
             } else {
                 echo'<p id="msg_erro">Algo deu errado :( </p>';
             }
@@ -59,6 +60,7 @@ require_once 'Clientes.php';
 			    $id = (int)$_GET['id'];
     			if($clientes->delete($id,'cli_id')){
 	    			echo '<p id="msg_sucesso">Deletado com sucesso!</p>';
+                    echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=CadClientes.php'>";
 			    }
 		    endif;
 		?>
@@ -75,7 +77,12 @@ require_once 'Clientes.php';
                     $clientes->setEmail($_POST['eemail']);
                     $clientes->setTelefone($_POST['etelefone']);
                     $clientes->setEndereco($_POST['eendereco']);
-                    $clientes->updateCliente($filmes->getId(), $filmes->getNome(), $filmes->getCpf(), $filmes->getEmail(), $filmes->getTelefone(), $filmes->getEndereco());
+                    if ($clientes->updateCliente($clientes->getId(), $clientes->getNome(), $clientes->getCpf(), $clientes->getEmail(), $clientes->getTelefone(), $clientes->getEndereco()) ) {
+                        echo '<p id="msg_sucesso">Cadastro editado com sucesso!</p>';
+                        echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=CadClientes.php'>";
+                    } else {
+                        echo '<p id="msg_erro">Deu ruim!</p>';
+                    }
                endif;
         ?>
 
@@ -83,23 +90,23 @@ require_once 'Clientes.php';
             <div class="row">
                 <div class="form-group col-md-4">
                     <p>Nome</p>
-                    <input type="text" class="form-control" name="enome" />
+                    <input type="text" class="form-control" value="<?php echo $resultado->cli_nome ?>"name="enome" />
 
                     <p>CPF</p>
-                    <input type="text" class="form-control" name="ecpf" />
+                    <input type="text" class="form-control" value="<?php echo $resultado->cli_cpf ?>"name="ecpf" />
 
                     <p>Email</p>
-                    <input type="text" class="form-control" name="eemail" />
+                    <input type="text" class="form-control" value="<?php echo $resultado->cli_email ?>"name="eemail" />
 
                     <p>Telefone</p>
-                    <input type="text" class="form-control" id="telefone" name="etelefone"/>
+                    <input type="text" class="form-control" value="<?php echo $resultado->cli_telefone ?>"id="telefone" name="etelefone"/>
 
                     <p>Endereco</p>
-                    <input type="text" class="form-control" name="eendereco" />
-                </div>
+                    <input type="text" class="form-control" value="<?php echo $resultado->cli_endereco ?>"name="eendereco" />
+                </div> 
             </div>
 
-            <Button class="btn btn-outline-success" name="alterar_cliente">Cadastrar</Button>
+            <Button class="btn btn-outline-danger" onClick="document.getElementById('form_editar').reset();" name="alterar_cliente">Editar</Button>
             <button class="btn btn-outline-primary" formaction="index.php">voltar</button>
         </form>
 

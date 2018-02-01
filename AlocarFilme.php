@@ -9,8 +9,26 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+<script type="text/javascript" src="script.js"></script>
 
     <title>Alocar Filme</title>
+
+    <script type="text/javascript">
+        function removeMensagem() {
+            setTimeout(function () {
+                var msg = document.getElementById("msg_sucesso");
+                msg.parentNode.removeChild(msg);
+            }, 2000);
+        }
+
+        document.onreadystatechange = () => {
+            if (document.readyState === 'complete') {
+                // toda vez que a pagina carregar, vai limpar a mensagem (se houver)
+                // timer de 5 segundos
+                removeMensagem();
+            }
+        };
+    </script>
 </head>
 <body>
 
@@ -20,7 +38,7 @@
     $alocar = new Alocar();
 
     if(isset($_POST['efetuar_alocacao'])):
-        # POST está recuperando a ID do filme e cliente
+        // POST está recuperando a ID do filme e cliente
         $filme = $_POST['select_filmes'];
         $cliente = $_POST['select_clientes'];
         $data_aluguel = $_POST['data_aluguel'];
@@ -28,21 +46,30 @@
         $alocar->setFilme_fil_id($filme);
         $alocar->setCliente_cli_id($cliente);
         echo $data_aluguel;
+        
         if ($data_aluguel != "") {
             $alocar->setCaf_data_aluguel($data_aluguel.':'.date('H:i:s'));
             $alocar->insert();
-            #colocar aqui updateQuantidade
+            /* TODO colocar update na quantidade do filme
+             * Colocar update de quantidade?
+             * Se for colocar é preciso fazer uma verificaçao para trazer a alocação em quantidade negativa
+             *
+             * */
             echo '<p id="msg_sucesso">Alocação feita com sucesso</p>';
+            echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=AlocarFilme.php'>";
         } else {
-            echo "<script language=\"javascript\">alert(\"Favor informar a hora corretamente!\")</script>";
+            echo "<script language=\"javascript\">alert(\"Favor informar a data correta!\")</script>";
         }
+        endif;
 
-/*         if($alocar->insert()){
-            echo '<p id="msg_sucesso">Alocação feita com sucesso</p>';
-        } else {
-            echo '<p id="msg_erro">Algo deu errado! :( </p>';
-        }
- */    endif;
+        
+    if(isset($_GET['acao']) && $_GET['acao'] == 'deletar'):
+       $id = (int)$_GET['id'];
+            if($alocar->delete($id,'caf_ordem_servico')){
+                echo '<p id="msg_sucesso">Deletado com sucesso!</p>';
+                echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=AlocarFilme.php'>";
+            }
+        endif;
 ?>
 
 <form name="form_alocarfilme" method="post">
@@ -68,7 +95,6 @@
 
         </div>
     </div>
-    <button class="btn btn-outline-primary" name="">Buscar</button>
     <button class="btn btn-outline-success" name="efetuar_alocacao">Efetuar</button>
     <button class="btn btn-outline-primary" formaction="index.php"> Voltar</button>
     <br>
@@ -77,23 +103,23 @@
     <table class="table table-sm table-hover">
         <thead>
             <tr>
-                <th scope="col">OS</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Filme</th>
-                <th scope="col">Data</th>
-                <th scope="col">Acoes</th>
+                <th>OS</th>
+                <th>Nome</th>
+                <th>Filme</th>
+                <th>Data</th>
+                <th>Acoes</th>
             </tr>
         </thead>
 
         <?php foreach($alocar->selectOS() as $keyAlugados => $valorAlugados): ?>
             <tbody>
                 <tr>
-                    <td class="sucess"><?php echo $valorAlugados->caf_ordem_servico; ?></td>
-                    <td class="sucess"><?php echo $valorAlugados->cli_nome; ?></td>
+                    <td><?php echo $valorAlugados->caf_ordem_servico; ?></td>
+                    <td><?php echo $valorAlugados->cli_nome; ?></td>
                     <td><?php echo $valorAlugados->fil_nome; ?></td>
-                    <td class="sucess"><?php echo $valorAlugados->Data; ?></td>
-                    <td class="sucess"><a href="">Editar</a></td>
-                    <td class="sucess"><a href="">Deletar</a></td>
+                    <td><?php echo $valorAlugados->Data; ?></td>
+
+                    <td><?php echo "<a href='alocarfilme.php?acao=deletar&id=".$valorAlugados->caf_ordem_servico. "' onclick='return confirm(\"Deseja realmente deletar?\")'>Deletar</a>";?> </td>
                 </tr>
             </tbody>
         <?php endforeach ?>

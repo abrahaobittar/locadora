@@ -99,6 +99,7 @@ class Clientes extends Crud
     public function updateCliente() 
     {
         $sql = "UPDATE $this->table SET cli_nome = :nome, cli_cpf = :cpf, cli_email = :email, cli_telefone = :telefone, cli_endereco = :endereco where cli_id = :id";
+        $stmt = Connection::prepare($sql);
         $stmt->bindParam(':id',$this->id);    
         $stmt->bindParam(':nome',$this->nome);
         $stmt->bindParam(':cpf',$this->cpf);

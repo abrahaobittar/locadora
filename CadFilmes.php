@@ -29,7 +29,7 @@ require_once 'Filmes.php';
         </script>
     </head>
 
-    <body onload=document.form_filme.reset();>
+    <body onload=document.form_filme.reset(); >
 
         <?php
         $filmes = new Filmes();
@@ -45,6 +45,7 @@ require_once 'Filmes.php';
 
             if ($filmes->insert()) {
                 echo '<p id="msg_sucesso">filme cadastrado com sucesso!</p>';
+                echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=CadFilmes.php'>";
             } else {
                 echo'<p id="msg_erro">Algo deu errado :( </p>';
             }
@@ -56,6 +57,7 @@ require_once 'Filmes.php';
 			    $id = (int)$_GET['id'];
     			if($filmes->delete($id,'fil_id')){
                     echo '<p id="msg_sucesso">Deletado com sucesso!</p>';
+                    echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=CadFilmes.php'>";
 			    }
 		    endif;
         ?>
@@ -77,6 +79,7 @@ require_once 'Filmes.php';
 
                     $filmes->setTipo_media($_POST['etipo_media']);
                     $filmes->updateFilme($filmes->getId(),$filmes->getNome(),$filmes->getQuantidade(),$filmes->getTipo_media());
+                    echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=CadFilmes.php'>";
                 endif;
         ?>
 

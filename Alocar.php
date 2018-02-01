@@ -95,13 +95,6 @@ class Alocar extends Crud
 
     public function selectOS()
     {
-        /*Select para selecionar todas as ordens de serviço com nome do cliente
-        e respectivo filme */
-/*           $sql = "SELECT a.caf_ordem_servico, c.cli_nome, f.fil_nome, a.caf_data_aluguel
-        	FROM (( cliente_aluga_filme a 
-    		JOIN clientes c ON a.cliente_cli_id = c.cli_id)
-            JOIN filmes f ON a.filme_fil_id = f.fil_id) limit 5"; */
-
         $sql = "SELECT a.caf_ordem_servico, c.cli_nome, f.fil_nome, date_format(a.caf_data_aluguel, '%d/%m/%Y') as Data
                     FROM (( cliente_aluga_filme a 
                     JOIN clientes c ON a.cliente_cli_id = c.cli_id)
@@ -110,4 +103,17 @@ class Alocar extends Crud
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public function updateOS() 
+    {
+        $sql = "UPDATE $this->table SET filme_fil_id: idfilme, cliente_cli_id: cliid, caf_dias: dias, caf_data_aluguel: dataaluguel";
+        $stmt = bindParam(':idfilme',$this->filme_fil_id);
+        $stmt = bindParam(':cliid',$this->cliente_cli_id);
+        $stmt = bindParam(':dias',$this->caf_dias);
+        $stmt = bindParam(':dataaluguel',$this->caf_data_aluguel);
+        $stmt = Connection::prepare($sql);
+        return $stmt->execute();
+    }
+
+
 }
