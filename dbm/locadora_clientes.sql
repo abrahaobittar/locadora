@@ -30,7 +30,7 @@ CREATE TABLE `clientes` (
   `cli_telefone` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   `cli_endereco` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`cli_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -42,4 +42,4 @@ CREATE TABLE `clientes` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-09 11:00:23
+-- Dump completed on 2018-02-05 11:26:34
