@@ -1,7 +1,7 @@
 <?php
 require_once 'Connection.php';
 
-abstract class Crud extends Connection 
+abstract class Crud extends Connection
 {
     protected $table;
 

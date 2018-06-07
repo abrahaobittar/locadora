@@ -25,6 +25,30 @@ require_once 'Clientes.php';
                     removeMensagem();
                 }
             };
+
+            $("#botao_cadastro button").click(function (event){
+                var form_data=$("#nome").serializeArray();
+	            var error_free=true;
+	            
+                for (var input in form_data){
+		            var element=$("#nome_"+form_data[input]['nome']);
+		            var valid=element.hasClass("valid");
+		            var error_element=$("span", element.parent());
+		        
+                    if (!valid){
+                        error_element.removeClass("error").addClass("error_show"); 
+                        error_free=false;
+                    } else{
+                        error_element.removeClass("error_show").addClass("error");
+                    }
+                }
+	            
+                if (!error_free){
+		        event.preventDefault(); 
+	            }else{
+		            alert('No errors: Form will be submitted');
+	            }
+            });
         </script>
     </head>
 
@@ -116,22 +140,22 @@ require_once 'Clientes.php';
             <div class="row">
                 <div class="form-group col-md-4">
                     <p>Nome</p>
-                    <input type="text" class="form-control" name="nome" />
+                    <input type="text" class="form-control" id="nome" name="nome" />
 
                     <p>CPF</p>
-                    <input type="text" class="form-control" name="cpf" />
+                    <input type="text" class="form-control" id="cpf" name="cpf" />
 
                     <p>Email</p>
-                    <input type="text" class="form-control" name="email" />
+                    <input type="text" class="form-control" id="email" name="email" />
 
                     <p>Telefone</p>
                     <input type="text" class="form-control" id="telefone" name="telefone"/>
 
                     <p>Endereco</p>
-                    <input type="text" class="form-control" name="endereco" />
+                    <input type="text" class="form-control" id="endereco" name="endereco" />
                 </div>
             </div>
-                <Button class="btn btn-outline-success" name="cadastrar_cliente">Cadastrar</Button>
+                <Button class="btn btn-outline-success" id="botao_cadastro" name="cadastrar_cliente">Cadastrar</Button>
                 <button class="btn btn-outline-primary" formaction="index.php">voltar</button>
         </form>
 

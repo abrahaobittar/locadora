@@ -1,8 +1,12 @@
 <?php
 require_once 'Crud.php';
 
+/**
+ * Undocumented class
+ */
 class Alocar extends Crud
 {
+    //@todo qualquer
     protected $table = 'cliente_aluga_filme';
     private $filme_fil_id;
     private $cliente_cli_id;
@@ -16,6 +20,12 @@ class Alocar extends Crud
         return $this->caf_ordem_servico;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $caf_ordem_servico
+     * @return void
+     */
     public function setCaf_Ordem_Servico($caf_ordem_servico)
     {
         $this->caf_ordem_servico = $caf_ordem_servico;
@@ -76,9 +86,9 @@ class Alocar extends Crud
         $sql = "INSERT INTO $this->table (filme_fil_id,cliente_cli_id,caf_data_aluguel)
           VALUES (:fil_id, :cli_id, :data_aluguel)";
         $stmt = Connection::prepare($sql);
-        $stmt->bindParam(':fil_id',$this->filme_fil_id);
-        $stmt->bindParam(':cli_id',$this->cliente_cli_id);
-        $stmt->bindParam(':data_aluguel',$this->caf_data_aluguel);
+        $stmt->bindParam(':fil_id', $this->filme_fil_id);
+        $stmt->bindParam(':cli_id', $this->cliente_cli_id);
+        $stmt->bindParam(':data_aluguel', $this->caf_data_aluguel);
         return $stmt->execute();
     }
 
@@ -86,10 +96,10 @@ class Alocar extends Crud
     {
         $sql = "UPDATE $this->table SET caf_dias = :dias, caf_data_aluguel = :data_aluguel, caf_data_entrega = :data_entrega
           WHERE caf_ordem_servico :os";
-        $stmt->bindParam(':os',$this->caf_ordem_servico);
-        $stmt->bindParam(':dias',$this->caf_dias);
-        $stmt->bindParam(':data_aluguel',$this->caf_data_aluguel);
-        $stmt->bindParam(':data_entrega',$this->caf_data_entrega);
+        $stmt->bindParam(':os', $this->caf_ordem_servico);
+        $stmt->bindParam(':dias', $this->caf_dias);
+        $stmt->bindParam(':data_aluguel', $this->caf_data_aluguel);
+        $stmt->bindParam(':data_entrega', $this->caf_data_entrega);
         return $stmt->execute();
     }
 
@@ -104,16 +114,14 @@ class Alocar extends Crud
         return $stmt->fetchAll();
     }
 
-    public function updateOS() 
+    public function updateOS()
     {
         $sql = "UPDATE $this->table SET filme_fil_id: idfilme, cliente_cli_id: cliid, caf_dias: dias, caf_data_aluguel: dataaluguel";
-        $stmt = bindParam(':idfilme',$this->filme_fil_id);
-        $stmt = bindParam(':cliid',$this->cliente_cli_id);
-        $stmt = bindParam(':dias',$this->caf_dias);
-        $stmt = bindParam(':dataaluguel',$this->caf_data_aluguel);
+        $stmt = bindParam(':idfilme', $this->filme_fil_id);
+        $stmt = bindParam(':cliid', $this->cliente_cli_id);
+        $stmt = bindParam(':dias', $this->caf_dias);
+        $stmt = bindParam(':dataaluguel', $this->caf_data_aluguel);
         $stmt = Connection::prepare($sql);
         return $stmt->execute();
     }
-
-
 }

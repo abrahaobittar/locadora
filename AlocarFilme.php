@@ -46,7 +46,7 @@
         $alocar->setFilme_fil_id($filme);
         $alocar->setCliente_cli_id($cliente);
         echo $data_aluguel;
-        
+
         if ($data_aluguel != "") {
             $alocar->setCaf_data_aluguel($data_aluguel.':'.date('H:i:s'));
             $alocar->insert();
@@ -62,10 +62,10 @@
         }
         endif;
 
-        
+
     if(isset($_GET['acao']) && $_GET['acao'] == 'deletar'):
        $id = (int)$_GET['id'];
-            if($alocar->delete($id,'caf_ordem_servico')){
+            if( $alocar->delete( $id,'caf_ordem_servico' ) ) {
                 echo '<p id="msg_sucesso">Deletado com sucesso!</p>';
                 echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=AlocarFilme.php'>";
             }

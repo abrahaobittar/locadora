@@ -59,7 +59,9 @@ require_once 'Filmes.php';
                     echo '<p id="msg_sucesso">Deletado com sucesso!</p>';
                     echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=CadFilmes.php'>";
 			    }
-		    endif;
+            endif;
+            
+            
         ?>
         
         <?php 
